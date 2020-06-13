@@ -7,28 +7,26 @@ const router = express.Router();
 // Custom middleware and validators
 
 function validateId(req, res, next) {
-  const numbers = req.url.match(/[0-9]+/)
-
-  if (numbers) {
-    Projects.get(numbers[0])
+  if (req.params.id) {
+    Projects.get(req.params.id)
       .then(project => {
-        req.project = project
         if (project) {
+          req.project = project
           next()
         } else {
           res.status(400).json({
-            errorMessage: "Project not found"
+            errorMessage: "Invalid project id"
           })
         }
       })
       .catch(err => {
-        res.status(500).json({
-          errorMessage: "Error retrieving project"
+        res.status(400).json({
+          errorMessage: "Problem retrieving project"
         })
       })
   } else {
     res.status(400).json({
-      errorMessage: "Invalid project id"
+      errorMessage: "No project id provided"
     })
   }
 }
