@@ -98,7 +98,8 @@ function validateId() {
           }
         })
         .catch(err => {
-          res.status(400).json({
+          console.log("Error: ", err)
+          res.status(500).json({
             errorMessage: "Problem retrieving project"
           })
         })
