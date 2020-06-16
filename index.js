@@ -8,7 +8,7 @@ const PORT = 4000;
 
 server.use(express.json());
 server.use(logger('short'));
-server.use(projectRouter);
+server.use('/api/projects', projectRouter);
 
 server.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`)
