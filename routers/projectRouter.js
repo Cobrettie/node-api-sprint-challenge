@@ -4,7 +4,7 @@ const Actions = require('../data/helpers/actionModel');
 
 const router = express.Router();
 
-// Custom middleware and validators
+// Endpoints
 
 // add a new project
 router.post('/', validateProject(), (req, res) => {
