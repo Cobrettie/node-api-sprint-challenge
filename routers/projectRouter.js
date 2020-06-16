@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
       res.status(200).json(projects)
     })
     .catch(err => {
+      console.log('Errror: ', err);
       res.status(500).json({
         errorMessage: "Could not retrieve projects"
       })
@@ -39,8 +40,17 @@ router.get('/:id', validateId(), (req, res) => {
 })
 
 // update project by id
-router.put('/:id', (req, res) => {
-
+router.put('/:id', validateId(), (req, res) => {
+  Projects.update(req.params.id, req.body)
+    .then(project => {
+      res.status(200).json(project)
+    })
+    .catch(err => {
+      console.log('Error: ', err);
+      res.status(500).json({
+        errorMessage: "Could not update project, please ensure all fields are filled out"
+      })
+    })
 })
 
 // remove project
