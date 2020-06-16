@@ -39,6 +39,20 @@ router.get('/:id', validateId(), (req, res) => {
   res.status(200).json(req.project)
 })
 
+// get all project actions
+router.get('/:id/actions', validateId(), (req, res) => {
+  Projects.getProjectActions(req.params.id)
+    .then(actions => {
+      res.status(200).json(actions)
+    })
+    .catch(err => {
+      console.log('Error: ', err);
+      res.status(500).json({
+        errorMessage: "Could not retrieve project actions"
+      })
+    })
+})
+
 // update project by id
 router.put('/:id', validateId(), (req, res) => {
   Projects.update(req.params.id, req.body)
