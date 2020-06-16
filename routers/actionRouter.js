@@ -6,6 +6,37 @@ const router = express.Router();
 
 // Endpoints
 
+// add a new action to a project
+// must have a provided project_id, 
+// if project_id is invalid, db will return an error
+router.post('/', (req, res) => {
+  Actions.get()
+    .then(() => {
+      if (!req.body.project_id || !req.body.description) {
+        res.status(400).json({
+          errorMessage: "Missing a required field"
+        })
+      } else {
+        Actions.insert(req.body)
+          .then(action => {
+            res.status(200).json(action)
+          })
+          .catch(err => {
+            console.log("Error: ", err);
+            res.status(500).json({
+              errorMessage: "Could not add action"
+            })
+          })
+      }
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(500).json({
+        errorMessage: "Something went wrong, rip"
+      })
+    })
+})
+
 router.get('/', (req, res) => {
   res.status(200).json({
     message: "No actions can be provided without a project_id"
@@ -24,36 +55,6 @@ router.get('/:id', validateId(), (req, res) => {
       })
     })
 })
-
-// add a new action to a project
-// must have a provided project_id, 
-// if project_id is invalid, db will return an error
-router.post('/', (req, res) => {
-  Actions.insert(req.body)
-    .then(action => {
-      res.status(200).json(action)
-    })
-    .catch(err => {
-      console.log('Error: ', err);
-      res.status(500).json({
-        errorMessage: "Could not create action"
-      })
-    })
-})
-
-// get all actions for a specified project
-// router.get('/', (req, res) => {
-//   Actions.get()
-//     .then(actions => {
-//       res.status(200).json(actions)
-//     })
-//     .catch(err => {
-//       console.log('Error: ', err)
-//       res.status(500).json({
-//         errorMessage: "Could not retrieve project actions"
-//       })
-//     })
-// })
 
 // Middleware
 
