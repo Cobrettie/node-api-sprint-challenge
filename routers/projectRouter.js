@@ -67,6 +67,8 @@ router.delete('/:id', validateId(), (req, res) => {
     })
 })
 
+// custom middleware 
+
 function validateId() {
   return (req, res, next) => {
     if (req.params.id) {
