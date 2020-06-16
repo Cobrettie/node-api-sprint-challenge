@@ -7,8 +7,7 @@ const router = express.Router();
 // Endpoints
 
 // add a new action to a project
-// must have a provided project_id, 
-// if project_id is invalid, db will return an error
+// must have a provided project_id
 router.post('/', (req, res) => {
   Actions.get()
     .then(() => {
@@ -43,6 +42,7 @@ router.get('/', (req, res) => {
   })
 })
 
+// get action by id
 router.get('/:id', validateId(), (req, res) => {
   Actions.get(req.params.id)
     .then(action => {
@@ -52,6 +52,20 @@ router.get('/:id', validateId(), (req, res) => {
       console.log('Error: ', err);
       res.status(500).json({
         errorMessage: "Could not retrieve action with this id"
+      })
+    })
+})
+
+// update action by id
+router.put('/:id', validateId(), (req, res) => {
+  Actions.update(req.params.id, req.body)
+    .then(updatedAction => {
+      res.status(200).json(updatedAction)
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(500).json({
+        errorMessage: "Could not update action"
       })
     })
 })
