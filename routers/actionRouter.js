@@ -70,6 +70,22 @@ router.put('/:id', validateId(), (req, res) => {
     })
 })
 
+// delete action by id
+router.delete('/:id', validateId(), (req, res) => {
+  Actions.remove(req.params.id)
+    .then(() => {
+      res.status(200).json({
+        message: "action removed from database"
+      })
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(500).json({
+        errorMessage: "Could not remove action"
+      })
+    })
+})
+
 // Middleware
 
 function validateId() {
